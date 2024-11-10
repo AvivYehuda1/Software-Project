@@ -1,12 +1,12 @@
 # **SymNMF Clustering Algorithm Software Project**
 
-An efficient implementation of the **Symmetric Non-negative Matrix Factorization (SymNMF)** algorithm, designed for clustering data represented by symmetric, non-negative matrices. SymNMF is particularly valuable in applications like text mining, image processing, and community detection in networks, where non-negative and symmetric data structures are commonly used.
+An efficient implementation of the **Symmetric Non-negative Matrix Factorization (SymNMF)** algorithm, designed for clustering data represented by symmetric, non-negative matrices. SymNMF is valuable in applications like text mining, image processing, and community detection in networks, where symmetric, non-negative data structures are commonly used.
 
 ## **Features**
 
 - Implements Symmetric Non-negative Matrix Factorization (SymNMF) for clustering.
-- Scalable to large datasets with optimized performance.
-- Includes example datasets and visualization tools for easy interpretation of clustering results.
+- Provides comparison with the K-Means clustering algorithm.
+- Includes analysis tools for clustering quality and performance comparison.
 
 ## **Table of Contents**
 - [Installation](#installation)
@@ -14,11 +14,10 @@ An efficient implementation of the **Symmetric Non-negative Matrix Factorization
 - [Project Structure](#project-structure)
 - [Examples](#examples)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## **Installation**
 
-To get started, clone this repository and install any necessary dependencies:
+Clone this repository and install any necessary dependencies:
 
 ```bash
 git clone https://github.com/AvivYehuda1/SymNMF-clustering-algorithm-Software-Project.git
@@ -28,46 +27,61 @@ pip install -r requirements.txt
 
 ## **Usage**
 
-Here’s a quick start guide to using the SymNMF implementation:
+### SymNMF Clustering
 
-```python
-from symnmf_module import SymNMF  # Replace with your actual module name
+Run SymNMF clustering with:
 
-# Load or create a sample symmetric non-negative dataset
-data = load_sample_data()  # Replace with your actual data loading function
-
-# Initialize and fit the model
-model = SymNMF(data)
-clusters = model.fit_predict()
-
-# Display clustering results
-print(clusters)
+```bash
+python symnmf.py <k> <goal> <input_file>
 ```
+
+- `k`: Number of clusters (less than the data points count).
+- `goal`: Operation:
+  - `symnmf`: Run SymNMF clustering.
+  - `sym`: Compute similarity matrix.
+  - `ddg`: Compute diagonal degree matrix.
+  - `norm`: Compute normalized similarity matrix.
+- `input_file`: Path to input data file (format: lines of floats separated by commas, last line empty).
+
+### K-Means Clustering
+
+Run K-Means clustering with:
+
+```bash
+python kmeans.py <k> <input_file>
+```
+
+- `k`: Number of clusters.
+- `input_file`: Path to input data file.
+
+### Performance Analysis
+
+To compare SymNMF and K-Means clustering performance, run:
+
+```bash
+python analysis.py <k> <input_file>
+```
+
+The script applies both methods to the dataset and reports silhouette scores to indicate clustering quality.
 
 ## **Project Structure**
 
-- `symnmf.py`: Contains the main implementation of the SymNMF algorithm.
-- `data_loader.py`: Scripts to load and preprocess sample datasets.
-- `evaluate.py`: Code for evaluating clustering results, including common metrics.
-- `visualize.py`: Visualization tools to help interpret clustering results.
+- `symnmf.py`: Python interface for the SymNMF algorithm.
+- `kmeans.py`: K-Means clustering implementation.
+- `analysis.py`: Comparison of clustering performance for SymNMF and K-Means.
+- `symnmf.c`: Core SymNMF functions in C.
+- `symnmf.h`: Header file for the C implementation.
+- `symnmfmodule.c`: Python C API wrapper for SymNMF functions.
+- `setup.py`: Build script for compiling the C extension.
+- `Makefile`: Builds the SymNMF executable.
+- `README.md`: Project documentation.
 
 ## **Examples**
 
-To visualize the clustering results, you can use the `visualize.py` module:
+Run clustering analysis on a dataset:
 
-```python
-from visualize import plot_clusters
-
-plot_clusters(data, clusters)  # This will create a scatter plot of the clusters
+```bash
+python analysis.py 5 input_k5_d7.txt
 ```
 
-The visualization will display each cluster in a different color, helping you understand the grouping created by the SymNMF algorithm.
-
-## **Contributing**
-
-Contributions are welcome! Here’s how you can get involved:
-
-1. Fork the repository.
-2. Create a new branch with your feature or improvement (`git checkout -b feature-name`).
-3. Commit your changes and push to your fork.
-4. Open a pull request, and we’ll review it as soon as possible.
+This compares SymNMF and K-Means clustering on the dataset `input_k5_d7.txt` with 5 clusters and reports the silhouette score for each.
